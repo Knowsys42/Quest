@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: quest-master
+spec:
+  template:
+    metadata:
+      name: quest-master-pod
+    spec:
+      containers:
+      - name: quest-master
+        image: quest-master:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
+      restartPolicy: Never
+         
