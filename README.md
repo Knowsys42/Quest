@@ -18,9 +18,12 @@ docker run -dt -p 3000:3000 quest-app
 
 ## AWS Deployment
 
-- AWS Infrastructure and the app was deployed to ECS/Fargate via Terraform [Terraform](cloud-infrastructure/)
-- Modules were in two groups compute (ecs,fargate,ALB) and network (vpc buildout [Modules](cloud-infrastructure/modules/infrastructure/modules/)
+- AWS Infrastructure and the app was deployed to ECS/Fargate via [Terraform](cloud-infrastructure/)
+- Terraform [Modules](cloud-infrastructure/modules/infrastructure/modules/) were used in two groups, 1. compute (ecs,fargate,ALB) and 2. network (vpc buildout)
 - The variable SECRET_WORD was stored in AWS Secrets manager and passed into the container with Terraform
+<img width="643" alt="image" src="https://user-images.githubusercontent.com/9085847/197003813-8a748f6a-ee90-49e1-8849-09727f24cea3.png">
+<img width="678" alt="image" src="https://user-images.githubusercontent.com/9085847/197003923-f6d446d1-87a9-4060-8957-89b10ddcddf4.png">
+- AWS Secrets Manager was used to keep the secret secure and not exposed in plaintext on my laptop
 
 - The First deployment was the ECS EC2 [ecs.tf](cloud-infrastructure/modules/infrastructure/modules/compute/ecs.tf)
 - The Second deployment was the Fargate [fargate.tf](cloud-infrastructure/modules/infrastructure/modules/compute/fargate.tf)
