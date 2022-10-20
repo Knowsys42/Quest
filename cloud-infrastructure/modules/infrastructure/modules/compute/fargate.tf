@@ -1,14 +1,16 @@
-/*
+
 #------------------------------------------------------------------------------
 # ECS CLUSTER
 #------------------------------------------------------------------------------
+
+#locally setting both public subnet Ids to attach Fargate container to ALB (the alb must have 2 IPS in different AZs)
 locals {
   subnets_ids = [
     "${var.public-subnet-id}",
     "${var.public2-subnet-id}",
   ]
 }
-
+#Locally setting secret from AWS secret manager
 locals {
   secret_word = jsondecode(
     data.aws_secretsmanager_secret_version.secret_word.secret_string
@@ -30,7 +32,7 @@ resource "aws_ecs_cluster" "cluster" {
 }
 module "quest_app" {
   source = "github.com/mongodb/terraform-aws-ecs-task-definition"
-
+#Add Env variables, for SECRET_WORD call the local variable as defined in line 14
   environment = [
     {
       name  = "SECRET_WORD"
@@ -41,7 +43,7 @@ module "quest_app" {
 
 
   family = "quest"
-
+#Choose correct ECR repo and image
   image             = "215412995827.dkr.ecr.us-east-1.amazonaws.com/quest-app:latest"
   cpu               = 256
   memory            = 256
@@ -135,4 +137,4 @@ resource "aws_ecs_task_definition" "quest_app" {
   memory = 512
   }
 
-  */
+  
