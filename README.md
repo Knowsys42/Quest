@@ -26,10 +26,10 @@ docker run -dt -p 3000:3000 quest-app
 - The Second deployment was the Fargate [fargate.tf](cloud-infrastructure/modules/infrastructure/modules/compute/fargate.tf)
 - Self signed certificates were uploaded to AWS Certificate Manager and deployed to the ALB [load_balancer.tf](cloud-infrastructure/modules/infrastructure/modules/compute/load_balancer.tf)
 
-######ECS EC2 Results
+##ECS EC2 Results
 ![ecs ec2](images/QuestDeployECSEC2.png)
 
-######Fargate Results
+##Fargate Results
 ![Fargate](images/QuestDeployFargate.png)
 
 ##Given more time, I would improve
