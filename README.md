@@ -35,6 +35,8 @@ docker run -dt -p 3000:3000 quest-app
 ## Fargate Results
 ![Fargate](images/QuestDeployFargate.png)
 
+**Interesting Note** The App did not detect that Fargate was docker, but did detect using ECS EC2. 
+
 ## Given more time, I would improve
 1. More TF variables. Though they were used I'd like to use more for future scabillity 
 2. Given previous experieince I would like to use a git pipeline to automatically run TF and update the infrastructure based off of PRs. 
@@ -43,7 +45,7 @@ docker run -dt -p 3000:3000 quest-app
 
 ## Bug
 - Though not a bug in the app code I did run into an issue where after deploying to ECS/Fargate an EXEC error was thrown. 
-- I have seen this previously in GKE and knew that becasue my mac is an M1 Mac docker was setting the arm64 platform, so to remedy I had to run the following command in the dokcer build phase
+- I have seen this previously in GKE and knew that because my mac is an M1 Mac docker was setting the arm64 platform, so to remedy I had to run the following command in the dokcer build phase
 
 ```
 docker build . -t 215412995827.dkr.ecr.us-east-1.amazonaws.com/quest-app:latest --platform=linux/amd64
