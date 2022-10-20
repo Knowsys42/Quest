@@ -41,7 +41,7 @@ docker run -dt -p 3000:3000 quest-app
 1. More TF variables. Though they were used I'd like to use more for future scabillity 
 2. Given previous experieince I would like to use a git pipeline to automatically run TF and update the infrastructure based off of PRs. 
 3. In addition to the above I'd like to show multi env (Dev,QA, and Prod) This would be handled with the TF modules and pipeline based off of git branch.
-4. Though not docker, I would like to deploy the app to EKS/GKE with TF and either K8s manifests or Helm with ArgoCD watching my git repository to automatically update pods based off of PRs to my repo.  
+4. Though not docker, I would like to deploy the app to EKS/GKE with TF and either K8s manifests or Helm with ArgoCD watching my git repository to automatically update pods based off of PRs to my repo. I did have the app running locally in my K8s cluster and forwarding the pod to port 3000, but I did not deploy to AWS due to cost concerns. 
 
 ## Bug
 - Though not a bug in the app code I did run into an issue where after deploying to ECS/Fargate an EXEC error was thrown. 
