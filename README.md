@@ -39,7 +39,7 @@ docker run -dt -p 3000:3000 quest-app
 
 ## Given more time, I would improve
 1. More TF variables. Though they were used I'd like to use more for future scabillity 
-2. Given previous experieince I would like to use a git pipeline to automatically run TF and update the infrastructure based off of PRs. 
+2. Given previous experience I would like to use a git pipeline to automatically run TF and update the infrastructure based off of PRs. As I am the only one interacting with this repo, creating approval rules and other team based actions would be ineffective.
 3. In addition to the above I'd like to show multi env (Dev,QA, and Prod) This would be handled with the TF modules and pipeline based off of git branch.
 4. Though not docker, I would like to deploy the app to EKS/GKE with TF and either K8s manifests or Helm with ArgoCD watching my git repository to automatically update pods based off of PRs to my repo. I did have the app running locally in my K8s cluster and forwarding the pod to port 3000, but I did not deploy to AWS due to cost concerns. 
 
