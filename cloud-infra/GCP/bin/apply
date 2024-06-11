@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+#/ Usage: bin/apply <space> <mission>/<stage>/<procedure>
+#/
+#/ Use apply to run `terraform apply` on the given
+#/ mission/stage/procedure. The apply script moves all of the items into
+#/ place that are needed and then runs `terraform apply`.
+
+set -e
+
+SPACE=$1
+MSP=$2
+
+_root=$(cd $(dirname $0)/.. && pwd)
+
+MISSION=$(echo $MSP | cut -d/ -f1)
+STAGE=$(echo $MSP | cut -d/ -f2)
+PROCEDURE=$(echo $MSP | cut -d/ -f3)
+
+_spacedir=$_root/space/$SPACE
+_missiondir=$_root/missions/$MISSION
+_stagedir=$_missiondir/$STAGE
+_procdir=$_stagedir/$PROCEDURE
+
+# Do everything from the top level of the program
+cd $_root
+
+test -d $_spacedir || (echo "Space directory not found: $_spacedir" && exit 1)
+test -d $_missiondir || (echo "Mission directory not found: $_missiondir" && exit 1)
+test -d $_stagedir || (echo "Stage directory not found: $_stagedir" && exit 1)
+test -d $_procdir || (echo "Procedure directory not found: $_procdir" && exit 1)
+
+cp -vf "${_spacedir}/${SPACE}.${MISSION}.tfvars" "${_procdir}/_mission.tfvars"
+cp -vf "${_missiondir}/${MISSION}.tf" "${_procdir}/_mission.tf"
+
+cd "$_procdir"
+
+terraform init
+terraform apply -auto-approve -var-file="_mission.tfvars"
