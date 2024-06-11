@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+#/ Usage: bin/plan space mission/stage/procedure
+#/
+#/ Use plan to run `terraform plan` on the `given
+#/ mission/stage/procedure`. `plan` moves all of the items into place that
+#/ are needed.
+
+# NOTE: You could handle the arguments above any way you wanted, but I'm going
+# the simplest path for this example.
+
+SPACE=$1
+MSP=$2
+
+_root=$(cd $(dirname $0)/.. && pwd)
+
+MISSION=$(echo $MSP | cut -d/ -f1)
+STAGE=$(echo $MSP | cut -d/ -f2)
+PROCEDURE=$(echo $MSP | cut -d/ -f3)
+
+_spacedir=$_root/space/$SPACE
+_missiondir=$_root/missions/$MISSION
+_stagedir=$_missiondir/$STAGE
+_procdir=$_stagedir/$PROCEDURE
+
+
+# Do everything from the top level of the program
+cd $_root
+
+test -d $_spacedir || {
+	printf "Space directory doesn't exist: %s\n" "$_spacedir"
+	exit 1
+}
+
+test -d $_missiondir || {
+	printf "Mission directory doesn't exist: %s\n" "$_missiondir"
+	exit 1
+}
+
+test -d $_stagedir || {
+	printf "Stage directory doesn't exist: %s\n" "$_stagedir"
+	exit 1
+}
+
+test -d $_procdir || {
+	printf "Procedure directory doesn't exist: %s\n" "$_procdir"
+	exit 1
+}
+
+cp -vf "${_spacedir}/${SPACE}.${MISSION}.tfvars" "${_procdir}/_mission.tfvars"
+cp -vf "${_missiondir}/${MISSION}.tf" "${_procdir}/_mission.tf"
+
+cd "$_procdir"
+
+terraform init && terraform validate
+terraform plan -out $(date +"%H%m%S").plan -var-file="_mission.tfvars"
